@@ -2,8 +2,12 @@ export PATH="$HOME/opt/cross/bin:$PATH"
 
 i686-elf-gcc -c kernel.c -o kernel.o -std=gnu99 -ffreestanding -O2 -Wall -Wextra        
 i686-elf-as boot.s -o boot.o
+i686-elf-gcc -c VGA_TTY.c -o VGA_TTY.o  -std=gnu99 -ffreestanding -O2 -Wall -Wextra
+i686-elf-gcc -c RTC.c -o RTC.o  -std=gnu99 -ffreestanding -O2 -Wall -Wextra
+i686-elf-gcc -c convert.c -o convert.o  -std=gnu99 -ffreestanding -O2 -Wall -Wextra
+i686-elf-gcc -c timedate.c -o timedate.o  -std=gnu99 -ffreestanding -O2 -Wall -Wextra
+i686-elf-gcc -T linker.ld -o myos.bin -ffreestanding -O2 -nostdlib kernel.o boot.o VGA_TTY.o RTC.o convert.o timedate.o -lgcc
 
-i686-elf-gcc -T linker.ld -o myos.bin -ffreestanding -O2 -nostdlib boot.o kernel.o -lgcc
 
 if grub-file --is-x86-multiboot myos.bin; then
   echo multiboot confirmed

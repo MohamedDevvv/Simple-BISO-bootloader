@@ -1,6 +1,9 @@
+// Kernel File
+
 #include "VGA_TTY.h"
 #include "RTC.h"
-
+#include "convert.h"
+#include "timedate.h"
 /* Check if the compiler thinks you are targeting the wrong operating system. */
 #if defined(__linux__)
 #error "You are not using a cross-compiler, you will most certainly run into trouble"
@@ -34,15 +37,24 @@ void kernel_main(void)
 	/* Initialize terminal interface */
 	terminal_initialize();
 
+	print_time();
+
 	char* string = "Hello, World!!";
 	uint8_t color = vga_entry_color(VGA_COLOR_RED, VGA_COLOR_WHITE);
-
 	terminal_center_writing(string, color);
-	terminal_newline();
 
+	print_date();
+
+	for(size_t i = 0; i < 80; i++){
+		terminal_writestring("-", color);
+	}
+	
 	terminal_writestring("Hi, I love VGA drivers file", color);
 	terminal_newline();
 
 	color = vga_entry_color(VGA_COLOR_BLUE, VGA_COLOR_WHITE);
 	terminal_center_writing("Yay! I am here to say the files are updated!", color);
+
+	terminal_newline();
+
 }

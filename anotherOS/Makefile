@@ -4,6 +4,10 @@ CFLAGS = -std=gnu99 -ffreestanding -O2 -Wall -Wextra
 
 builds = ./build/kernel.o ./build/boot.o ./build/vga.o
 
+burn:
+	sudo dd if=anotheros.iso of=/dev/sdb && sync
+
+
 git:
 	git add drivers
 	git add libs

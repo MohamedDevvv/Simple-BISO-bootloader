@@ -59,8 +59,8 @@ size_t calc_index(){
 
 void terminal_initialize(void)
 {
-	defualt_color = vga_entry_color(VGA_COLOR_BLACK, VGA_COLOR_WHITE);
-	defualt_text = vga_entry('.', defualt_color);
+	defualt_color = vga_entry_color(VGA_COLOR_WHITE, VGA_COLOR_BLACK);
+	defualt_text = vga_entry(' ', defualt_color);
 
 	terminal_row = 0;
 	terminal_column = 0;
@@ -121,7 +121,7 @@ void terminal_endl(const char* data, const uint8_t color){
 		terminal_writestring(data, color);
 }
 
-void terminal_newline(void){
+void terminal_newline(){
 	terminal_row++;	
 	terminal_column = 0;
 }

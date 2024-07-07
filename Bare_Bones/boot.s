@@ -20,14 +20,12 @@ stack_top:
 .global _start
 .type _start, @function
 _start:
+    cli                   # Clear interrupts
+    mov $stack_top, %esp  # Set stack pointer
+    call kernel_main      # Call kernel main function
 
-mov $stack_top, %esp
+.hang:
+    hlt                   # Halt CPU
+    jmp .hang             # Infinite loop
 
-call kernel_main
-
-	cli
-1:	hlt
-	jmp 1b
-
-.size _start, . - _start
-
+.size _start, .-_start

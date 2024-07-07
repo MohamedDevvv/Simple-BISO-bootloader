@@ -41,6 +41,6 @@ void terminal_putchar(char c);
 void terminal_write(const char* data, size_t size);
 void terminal_writestring(const char* data, const uint8_t color);
 void terminal_center_writing(const char* data, const uint8_t color);
-void terminal_newline(void);
+void terminal_newline();
 
 #endif // VGA_TTY_H

@@ -4,9 +4,14 @@ CFLAGS = -std=gnu99 -ffreestanding -O2 -Wall -Wextra
 
 builds = ./build/kernel.o ./build/boot.o ./build/vga.o
 
+clean:
+	rm ./build/* \
+	rm ./*.iso \
+	rm ./*.bin
+	rm -rf ./isodir
+
 burn:
 	sudo dd if=anotheros.iso of=/dev/sdb && sync
-
 
 git:
 	git add drivers
@@ -21,6 +26,8 @@ qemu:
 	qemu-system-x86_64 anotheros.iso
 
 makeiso:
+	mkdir -p isodir/boot/grub
+	cp grub.cfg isodir/boot/grub
 	cp anotheros.bin isodir/boot/anotheros.bin
 	@grub-mkrescue -o anotheros.iso isodir
 

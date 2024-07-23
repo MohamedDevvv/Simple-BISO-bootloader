@@ -79,7 +79,7 @@ void scroll_line()
         BUFFER[(HEIGHT - 1) * WIDTH + x] = vga_entry(' ', COLOR);
     }
 
-    ROW = HEIGHT - 1;
+    ROW = HEIGHT - 2;
     COLUMN = 0;
 }
 
@@ -95,14 +95,17 @@ void print(char* text, uint8_t color)
 {
     size_t length = strlen(text);
     for(size_t i = 0; i < length; i++){
+        if (++ROW == HEIGHT) {
+            scroll_line();
+        }else{
+            ROW--;
+        }
         print_char(text[i], ROW, COLUMN, color);
         if (++COLUMN == WIDTH) {
             COLUMN = 0;
-        }
-        if (++ROW == HEIGHT) {
+            if (++ROW == HEIGHT) {
                 scroll_line();
-        }else{
-            --ROW;
+            }
         }
     }
 }

@@ -12,13 +12,6 @@ clean:
 burn:
 	sudo dd if=anotheros.iso of=/dev/sdb && sync
 
-git:
-	git add drivers
-	git add libs
-	git add boot.s kernel.c linker.ld Makefile
-	git commit -m "new update pushed from make file"
-	git push
-
 all: files.c link makeiso qemu
 
 qemu:

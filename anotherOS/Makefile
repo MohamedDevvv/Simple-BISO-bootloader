@@ -5,9 +5,9 @@ CFLAGS = -std=gnu99 -ffreestanding -O2 -Wall -Wextra
 builds = ./build/kernel.o ./build/boot.o ./build/vga.o
 
 clean:
-	rm -rf ./build/* \
+	rm -rf build \
 	rm ./*.iso \
-	rm ./*.bin
+	rm kernel
 
 burn:
 	sudo dd if=anotheros.iso of=/dev/sdb && sync

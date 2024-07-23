@@ -10,7 +10,7 @@ enum colors {
 	CYAN = 3,
 	RED = 4,
 	MAGENTA = 5,
-	BRAWN = 6,
+	BROWN = 6,
 	LIGHT_GREY = 7,
 	DARK_GREY = 8,
 	LIGHT_BLUE = 9,
@@ -45,7 +45,7 @@ size_t strlen(const char* str)
 static const size_t HEIGHT = 25;
 static const size_t WIDTH = 80;
 
-size_t RAW;
+size_t ROW;
 size_t COLUMN;
 uint8_t COLOR;
 uint16_t* BUFFER;
@@ -53,21 +53,36 @@ uint16_t* BUFFER;
 
 void clear_screen()
 {
-    RAW = 0;
+    ROW = 0;
     COLUMN = 0;
     COLOR = vga_color(WHITE, BLACK);
     BUFFER = (uint16_t*) 0xB8000;
     for(size_t y = 0; y < HEIGHT; y++){
         for(size_t x = 0; x < WIDTH; x++){
-            const size_t index = y * WIDTH +x;
+            const size_t index = y * WIDTH + x;
             BUFFER[index] = vga_entry(' ', COLOR);
         }
     }
 }
 
-// void scroll_line(){
-//     clear_screen(); // under construction
-// }
+void scroll_line()
+{
+    for (size_t y = 1; y < HEIGHT; y++) {
+        for (size_t x = 0; x < WIDTH; x++) {
+            const size_t source = (y - 1) * WIDTH + x;
+            const size_t distance = y * WIDTH + x;
+            BUFFER[source] = BUFFER[distance];
+        }
+    }
+
+    for (size_t x = 0; x < WIDTH; x++) {
+        BUFFER[(HEIGHT - 1) * WIDTH + x] = vga_entry(' ', COLOR);
+    }
+
+    ROW = HEIGHT - 1;
+    COLUMN = 0;
+}
+
 
 
 void print_char(char c, size_t y, size_t x, uint8_t color)
@@ -80,15 +95,14 @@ void print(char* text, uint8_t color)
 {
     size_t length = strlen(text);
     for(size_t i = 0; i < length; i++){
-        print_char(text[i], RAW, COLUMN, color);
-        if(++COLUMN == WIDTH){
-            if(++RAW == HEIGHT){
-                RAW = 0;
-                COLUMN = 0;
-                // scroll_line();
-            }else{
-                COLUMN = 0;
-            }
+        print_char(text[i], ROW, COLUMN, color);
+        if (++COLUMN == WIDTH) {
+            COLUMN = 0;
+        }
+        if (++ROW == HEIGHT) {
+                scroll_line();
+        }else{
+            --ROW;
         }
     }
 }
@@ -122,6 +136,6 @@ void loading_fail(){
 }
 
 void endl(){
-    RAW++;
+    ROW++;
     COLUMN = 0;
 }

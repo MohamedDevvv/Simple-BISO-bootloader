@@ -5,7 +5,7 @@ CFLAGS = -std=gnu99 -ffreestanding -O2 -Wall -Wextra
 builds = ./build/kernel.o ./build/boot.o ./build/vga.o
 
 clean:
-	rm -rf build \
+	rm -rf build/* \
 	rm ./*.iso \
 	rm kernel
 
@@ -31,4 +31,6 @@ files.c:
 	$(CC) -c boot.s -o ./build/boot.o
 	$(CC) -c kernel.c -o ./build/kernel.o $(CFLAGS)
 	$(CC) -c ./drivers/vga.c -o ./build/vga.o $(CFLAGS)
+	$(CC) -c ./libs/convert.c -o ./libs/convert.o $(CFLAGS)
+
 

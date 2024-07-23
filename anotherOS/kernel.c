@@ -2,6 +2,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include "./drivers/vga.h"
+#include "./libs/convert.h"
 
 
 void kernel_main(){
@@ -20,5 +21,5 @@ void kernel_main(){
 
     color = vga_color(LIGHT_BLUE, BLACK);
     print("Welcome to Another X86 os"); endl();
-    print("Hello, World!");
+    print("Hello, World!"); endl();
 }

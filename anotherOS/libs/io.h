@@ -2,50 +2,23 @@
 #define IO_H
 
 #include <stdint.h>
-#include <stdbool.h>
-#include <stdint.h>
 
-static inline uint8_t inb(uint16_t port) {
-    uint8_t result;
-    __asm__ __volatile__("inb %1, %0" : "=a"(result) : "Nd"(port));
-    return result;
-}
-
-static inline void outb(uint16_t port, uint8_t data) {
-    __asm__ __volatile__("outb %0, %1" : : "a"(data), "Nd"(port));
-}
-
-static void itoa(int value, char* str, int base)
+static inline void outb(uint16_t port, uint8_t val)
 {
-        char *ptr = str, *ptr1 = str, tmp_char;
-    int tmp_value;
-
-    if (value == 0) {
-        *str++ = '0';
-        *str = '\0';
-        return;
-    }
-
-    while (value) {
-        tmp_value = value % base;
-        if (tmp_value < 10) {
-            tmp_value += '0';
-        } else {
-            tmp_value += 'a' - 10;
-        }
-        *ptr++ = tmp_value;
-        value /= base;
-    }
-
-    // Null terminate string
-    *ptr-- = '\0';
-
-    // Reverse string
-    while (ptr1 < ptr) {
-        tmp_char = *ptr;
-        *ptr-- = *ptr1;
-        *ptr1++ = tmp_char;
-    }
+    __asm__ volatile ( "outb %b0, %w1" : : "a"(val), "Nd"(port) : "memory");
+    /* There's an outb %al, $imm8 encoding, for compile-time constant port numbers that fit in 8b. (N constraint).
+     * Wider immediate constants would be truncated at assemble-time (e.g. "i" constraint).
+     * The  outb  %al, %dx  encoding is the only option for all other cases.
+     * %1 expands to %dx because  port  is a uint16_t.  %w1 could be used if we had the port number a wider C type */
 }
 
+static inline uint8_t inb(uint16_t port)
+{
+    uint8_t ret;
+    __asm__ volatile ( "inb %w1, %b0"
+                   : "=a"(ret)
+                   : "Nd"(port)
+                   : "memory");
+    return ret;
+}
 #endif

@@ -2,6 +2,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include "./drivers/vga.h"
+#include "libs/convert.h"
 
 void kernel_main(){
     clear_screen();
@@ -21,8 +22,5 @@ void kernel_main(){
     print("Kernel Version: r56416-alpha (32bit)", color);endl();
     print("VGA in text mode", color);endl();
     print("Made by Mohammed Saleh", color);endl();
-    // for(size_t i=0; i<23; i++){
-    //     print("scroll down!", vga_color(RED, BLACK));endl();
-    // }
 
 }

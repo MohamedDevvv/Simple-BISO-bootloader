@@ -3,11 +3,23 @@
 #include <stdint.h>
 #include "./drivers/vga.h"
 #include "./libs/convert.h"
+#include "kernel.h"
+#include "../drivers/screen.h"
+#include "../libs/mem.h"
+#include "../libs/string.h"
 
 
 void kernel_main(){
+    isr_install();
+    irq_install();
     clear_screen();
 
+    asm("int $2");
+    asm("int $3");
+
+    kprint("Type something, it will go through the kernel\n"
+        "Type END to halt the CPU or PAGE to request a kmalloc()\n> ");
+    
     uint8_t color = vga_color(WHITE, BLACK);
 
     print("Booting Kernel", color); 

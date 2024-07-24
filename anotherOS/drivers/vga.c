@@ -1,7 +1,6 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
-#include <../libs/convert.h>
 
 /* Hardware text mode color constants. */
 enum colors {

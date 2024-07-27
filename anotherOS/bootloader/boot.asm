@@ -2,7 +2,7 @@
 [org 0x7c00]
 
 ;printg
-mov bx, hello
+mov bx, boot
 call print
 
 mov bx, realmode
@@ -11,7 +11,7 @@ call print
 %include "print.asm"
 
 boot: db 'Booting Bruh Bootloader', 0
-realmode: db "Enter 16-bit real mode', 0
+realmode: db 'Enter 16-bit real mode', 0
 
 ; magick number
 jmp $

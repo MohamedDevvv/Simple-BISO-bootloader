@@ -1,35 +1,41 @@
 #include <stdint.h>
 #include <stdbool.h>
+#include <stdint.h>
 
-// to covert size_t to char
-static void itoa(int value, char* str, int base) {
-    char *ptr = str, *ptr1 = str, tmp_char;
-    int tmp_value;
-
-    if (value == 0) {
-        *str++ = '0';
+char * itoa( int value, char * str, int base )
+{
+    char * rc;
+    char * ptr;
+    char * low;
+    // Check for supported base.
+    if ( base < 2 || base > 36 )
+    {
         *str = '\0';
-        return;
+        return str;
     }
-
-    while (value) {
-        tmp_value = value % base;
-        if (tmp_value < 10) {
-            tmp_value += '0';
-        } else {
-            tmp_value += 'a' - 10;
-        }
-        *ptr++ = tmp_value;
+    rc = ptr = str;
+    // Set '-' for negative decimals.
+    if ( value < 0 && base == 10 )
+    {
+        *ptr++ = '-';
+    }
+    // Remember where the numbers start.
+    low = ptr;
+    // The actual conversion.
+    do
+    {
+        // Modulo is negative for negative value. This trick makes abs() unnecessary.
+        *ptr++ = "zyxwvutsrqponmlkjihgfedcba9876543210123456789abcdefghijklmnopqrstuvwxyz"[35 + value % base];
         value /= base;
-    }
-
-    // Null terminate string
+    } while ( value );
+    // Terminating the string.
     *ptr-- = '\0';
-
-    // Reverse string
-    while (ptr1 < ptr) {
-        tmp_char = *ptr;
-        *ptr-- = *ptr1;
-        *ptr1++ = tmp_char;
+    // Invert the numbers.
+    while ( low < ptr )
+    {
+        char tmp = *low;
+        *low++ = *ptr;
+        *ptr-- = tmp;
     }
+    return rc;
 }

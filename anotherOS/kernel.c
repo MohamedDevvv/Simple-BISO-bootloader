@@ -2,12 +2,16 @@
 #include <stddef.h>
 #include <stdint.h>
 #include "./drivers/vga.h"
+main
 #include "./libs/convert.h"
 #include "kernel.h"
 #include "../drivers/screen.h"
 #include "../libs/mem.h"
 #include "../libs/string.h"
 
+
+#include "libs/convert.h"
+main
 
 void kernel_main(){
     isr_install();
@@ -35,8 +39,5 @@ void kernel_main(){
     print("Kernel Version: r56416-alpha (32bit)", color);endl();
     print("VGA in text mode", color);endl();
     print("Made by Mohammed Saleh", color);endl();
-    // for(size_t i=0; i<23; i++){
-    //     print("scroll down!", vga_color(RED, BLACK));endl();
-    // }
 
 }

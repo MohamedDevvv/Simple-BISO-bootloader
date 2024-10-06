@@ -31,8 +31,11 @@ files.c:
 	$(CC) -c boot.s -o ./build/boot.o
 	$(CC) -c kernel.c -o ./build/kernel.o $(CFLAGS)
 	$(CC) -c ./drivers/vga.c -o ./build/vga.o $(CFLAGS)
+main
 	$(CC) -c ./libs/convert.c -o ./libs/convert.o $(CFLAGS)
 	$(CC) -c ./drivers/screen.c -o ./build/screen.o $(CFLAGS)
 	$(CC) -c ./cpu/ports.c -o ./build/ports.o $(CFLAGS)
+	# $(CC) -c ./libs/convert.h -o ./build/convert.o $(CFLAGS)
+main
 
 
